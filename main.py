@@ -79,7 +79,7 @@ def save_to_csv(data):
         csv_writer.writerows(data)
 
 
-if __name__ == '__main__':
+def population_table_scraper():
     page_url = "https://www.worldometers.info/world-population/population-by-country/"
     
     html = fetch_page_content(page_url)
@@ -87,3 +87,7 @@ if __name__ == '__main__':
     population_data = parse_page_content(html)
     
     save_to_csv(population_data)
+
+
+if __name__ == '__main__':
+    population_table_scraper()
