@@ -4,6 +4,8 @@ import csv
 
 
 def fetch_page_content(url):
+    """Fetch the HTML content of a given URL."""
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
     }
@@ -25,6 +27,8 @@ def fetch_page_content(url):
 
 
 def parse_page_content(html_content):
+    """Parse HTML content and extract population data."""
+
     if not html_content:
         print("No HTML content to parse.")
         return None
@@ -63,6 +67,8 @@ def parse_page_content(html_content):
 
 
 def save_to_csv(data):
+    """Save the extracted data to a CSV file."""
+
     with open('data.csv', 'w', encoding='utf-8') as f:
         # Define the desired fieldnames for the CSV file
         fieldnames = ['#', 'Country (or dependency)', 'Population (2024)', 'Yearly Change', 'Net Change',
@@ -80,6 +86,8 @@ def save_to_csv(data):
 
 
 def population_table_scraper():
+    """Main function to scrape population data and save it to a CSV file."""
+
     page_url = "https://www.worldometers.info/world-population/population-by-country/"
     
     html = fetch_page_content(page_url)
