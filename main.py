@@ -24,6 +24,10 @@ def fetch_page_content(url):
 
 
 def parse_page_content(html_content):
+    if not html_content:
+        print("No HTML content to parse.")
+        return None
+    
     soup = BeautifulSoup(html_content, 'lxml')
     
     # Find the table container
@@ -37,19 +41,20 @@ def parse_page_content(html_content):
     # Loop through each row to get the corresponding column value
     for row in rows:
         dic = {}  # empty dict
+        columns = row.find_all('td')
         
-        dic['Sort'] = row.find_all('td')[0].text
-        dic['Country'] = row.find_all('td')[1].text
-        dic['Population (2024)'] = row.find_all('td')[2].text.replace(',', '')
-        dic['Yearly Change'] = row.find_all('td')[3].text
-        dic['Net Change'] = row.find_all('td')[4].text
-        dic['Density (P/Km2)'] = row.find_all('td')[5].text.replace(',', '')
-        dic['Land Area (Km2)'] = row.find_all('td')[6].text.replace(',', '')
-        dic['Migrants (net)'] = row.find_all('td')[7].text.replace(',', '')
-        dic['Fert. Rate'] = row.find_all('td')[8].text
-        dic['Mid. Age'] = row.find_all('td')[9].text
-        dic['Urban Pop'] = row.find_all('td')[10].text
-        dic['World Share'] = row.find_all('td')[11].text
+        dic['Sort'] = columns[0].text
+        dic['Country'] = columns[1].text
+        dic['Population (2024)'] = columns[2].text.replace(',', '')
+        dic['Yearly Change'] = columns[3].text
+        dic['Net Change'] = columns[4].text
+        dic['Density (P/Km2)'] = columns[5].text.replace(',', '')
+        dic['Land Area (Km2)'] = columns[6].text.replace(',', '')
+        dic['Migrants (net)'] = columns[7].text.replace(',', '')
+        dic['Fert. Rate'] = columns[8].text
+        dic['Mid. Age'] = columns[9].text
+        dic['Urban Pop'] = columns[10].text
+        dic['World Share'] = columns[11].text
         
         countries_list.append(dic)   # Append dictionary to the list
     
