@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
 
 def fetch_page_content(url):
@@ -43,22 +44,39 @@ def parse_page_content(html_content):
         dic = {}  # empty dict
         columns = row.find_all('td')
         
-        dic['Sort'] = columns[0].text
-        dic['Country'] = columns[1].text
+        dic['#'] = columns[0].text
+        dic['Country (or dependency)'] = columns[1].text
         dic['Population (2024)'] = columns[2].text.replace(',', '')
         dic['Yearly Change'] = columns[3].text
         dic['Net Change'] = columns[4].text
-        dic['Density (P/Km2)'] = columns[5].text.replace(',', '')
-        dic['Land Area (Km2)'] = columns[6].text.replace(',', '')
+        dic['Density (P/Km²)'] = columns[5].text.replace(',', '')
+        dic['Land Area (Km²)'] = columns[6].text.replace(',', '')
         dic['Migrants (net)'] = columns[7].text.replace(',', '')
         dic['Fert. Rate'] = columns[8].text
-        dic['Mid. Age'] = columns[9].text
-        dic['Urban Pop'] = columns[10].text
+        dic['Med. Age'] = columns[9].text
+        dic['Urban Pop %'] = columns[10].text
         dic['World Share'] = columns[11].text
         
-        countries_list.append(dic)   # Append dictionary to the list
+        countries_list.append(dic)  # Append dictionary to the list
     
-    return countries_list            # Return the list of dictionaries
+    return countries_list  # Return the list of dictionaries
+
+
+def save_to_csv(data):
+    with open('data.csv', 'w', encoding='utf-8') as f:
+        # Define the desired fieldnames for the CSV file
+        fieldnames = ['#', 'Country (or dependency)', 'Population (2024)', 'Yearly Change', 'Net Change',
+                      'Density (P/Km²)', 'Land Area (Km²)', 'Migrants (net)', 'Fert. Rate', 'Med. Age', 'Urban Pop %',
+                      'World Share']
+        
+        # Create the CSV DictWriter object
+        csv_writer = csv.DictWriter(f, fieldnames=fieldnames)
+        
+        # Write the header row
+        csv_writer.writeheader()
+        
+        # Write each row to the CSV file
+        csv_writer.writerows(data)
 
 
 if __name__ == '__main__':
@@ -66,4 +84,6 @@ if __name__ == '__main__':
     
     html = fetch_page_content(page_url)
     
-    parse_page_content(html)
+    population_data = parse_page_content(html)
+    
+    save_to_csv(population_data)
