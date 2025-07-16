@@ -36,7 +36,7 @@ def parse_page_content(html_content):
     soup = BeautifulSoup(html_content, 'lxml')
     
     # Find the table container
-    table = soup.find('table', id='example2').tbody
+    table = soup.find('table').tbody
     
     # Find all rows withing the table
     rows = table.find_all('tr')
