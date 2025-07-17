@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import countryflag
+from countryflag import CountryFlag
 
 
 def fetch_page_content(url):
@@ -34,7 +36,7 @@ def parse_page_content(html_content):
         return None
     
     soup = BeautifulSoup(html_content, 'lxml')
-    
+    cf = CountryFlag
     # Find the table container
     table = soup.find('table').tbody
     
